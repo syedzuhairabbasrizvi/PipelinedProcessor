@@ -1,0 +1,39 @@
+28addi x30, x30, 5
+32addi x29, x29, 4
+36addi x7, x7, 3
+40addi x6, x6, 2
+44addi x5, x5, 1
+48addi x11, x11, 5 #len
+52sw x5, 0(x10) #put in the int array
+56sw x6, 8(x10) 
+60sw x7, 16(x10)
+64sw x29, 24(x10)
+68sw x30, 32(x10)
+bubble:
+72lw x5, 0(x10) #check for null array or zero len
+76beq x5, x0, exit
+80beq x11, x0, exit
+84addi x5, x0, 0 #i = 0
+loop:
+88addi x6, x5, 0 #j = i
+92slli x7, x5, 2 #get a[i]
+96add x7, x7, x10
+100lw x28, 0(x7)
+loop2:
+104slli x29, x6, 2 #get a[j]
+108add x29, x29, x10
+112lw x30, 0(x29)d
+116blt x28, x30, swap #if a[i]<a[j], swap
+120addi x6, x6, 1 #else j++
+124blt x6, x11, loop2 #if j==len check if i==len else loop2
+128beq x0, x0, loopcheck
+swap:
+132sw x30, 0(x7) #perform swap
+136sw x28, 0(x29)
+140lw x28, 0(x7) #reload swapped a[i]
+144addi x6, x6, 1 #j++
+148blt x6, x11, loop2 #if j==len check if i==len else loop2
+loopcheck:
+152addi x5, x5, 1 #i++
+156blt x5, x11, loop #if i==len return else loop
+
